@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 10 Overview</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #007BFF;
+        }
+
+        h2 {
+            color: #28A745;
+        }
+
+        code {
+            background-color: #F8F9FA;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Why Java 10?</h1>
+<p>
+    Java 10 was introduced to align with a new release cadence that emphasizes predictability,
+    faster delivery of new features, and increased community involvement.
+    The goal is to make Java development more agile, responsive, and adaptive
+    to the changing requirements of the software industry.
+</p>
+<p>
+    Java 10, released in March 2018, was part of Oracle's new release cadence,
+    which introduced a time-driven model for Java releases.
+</p>
+
+<h2>New Features in Java 10</h2>
+<p><strong>Local Variable Type-Inference</strong></p>
+<p>
+    <code>var</code> is used to remove boilerplate code, making your code more concise and readable.
+</p>
+<pre>
+        <code>
+            Map&lt;Integer, Student2&gt; studentMap = new HashMap&lt;&gt;();
+            // Adding students to the HashMap
+            studentMap.put(1, new Student2(1, "Alice", 85.5));
+            studentMap.put(2, new Student2(2, "Bob", 92.0));
+            studentMap.put(3, new Student2(3, "Charlie", 78.3));
+            studentMap.put(4, new Student2(4, "David", 94.8));
+
+            studentMap.entrySet().stream().forEach(entry -&gt; System.out.println(entry.getValue()));
+
+            // What type of variable we can assign to the below a map or a student object?
+            studentMap.entrySet().stream().max((stu1, stu2) -&gt; stu1.getValue().getMarks() > stu2.getValue().getMarks() ? 0 : 1);
+
+            // If we can't predict the value type, then we can use 'var'
+            var student = studentMap.entrySet().stream().max((stu1, stu2) -&gt; stu1.getValue().getMarks() > stu2.getValue().getMarks() ? 0 : 1);
+        </code>
+    </pre>
+
+<p>
+    The compiler infers the type from the type of the initializer present on the right-hand side.
+    And this is only for local variables, not for member variables.
+</p>
+<p>
+    Finally, note that there is no runtime overhead in using var nor does it make Java a dynamically typed language. The
+    type of the variable is still inferred at compile time and cannot be changed later.
+</p>
+
+<p><strong>Unmodifiable Collections</strong></p>
+<p> to create unmodifiable collections</p>
+<ul>
+    <li>List.copyOf</li>
+    <li>java.util.stream.Collectors.toUnmodifiable*()/li>
+</ul>
+
+
+<p>Any attempt to modify such a collection would result in <b>java.lang.UnsupportedOperationExceptionruntime</b>
+    exception.</p>
+
+<p><strong>orElseThrow()</strong></p>
+<p>
+    java.util.Optional, java.util.OptionalDouble, java.util.OptionalIntand java.util.OptionalLongeach got a new method
+    orElseThrow()which doesn’t take any argument and throws NoSuchElementExceptionif no value is present:
+</p>
+<pre>
+        <code>
+            try {
+int firstEvenNumber = IntStream.range(1, 1).filter(n -> n % 2 == 0).findFirst().orElseThrow();
+}catch (NoSuchElementException exception){
+//  exception handling
+}
+        </code>
+</pre>
+
+<p><strong>Root Certificates</strong></p>
+
+<p>Java 10 included routine updates to the default set of root certificates. These updates ensure that Java can
+    recognize and trust the latest certificates issued by Certificate Authorities (CAs)
+    (have to explore)
+</p>
+
+And some thing related to performance improvement and container awareness and few apis deprecated,
+
+Deprecated java.security.acl package has been marked forRemoval=true and is subject to removal in a future version of
+Java SE. It’s been replaced by java.security.Policy and related classes.
+Similarly, java.security.{Certificate,Identity,IdentityScope,Signer} APIs are marked forRemoval=true.
+
+
+</body>
+</html>
+
+
